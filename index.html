@@ -1,60 +1,80 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>item</title>
-<style>
-
-.main {
-	 display: flex;
-      align-items: center;
-      justify-content: space-between;
- }
-.box {
-	width:100px;
-	padding: 20px;
-	flex: 0 0 auto;
-	margin: 20px;
-}
-.box1 {
-    height: 80px;
-    border: 1px solid #f00;
-}
-.box2 {
-    height: 60px;
-    border: 1px solid #f00;
-}
-.box3 {
-    width: 110px;
-    height: 0;
-    padding: 20px;
-    border: 1px solid #f00;
-}
-.box4 {
-    height: 160px;
-    border: 1px solid #0f0;
-}
- @media screen and (max-width: 640px) {
-      .main {
-        align-items: flex-start;
-        flex-wrap: wrap;
-      }
-
-      .box4 {
-        order: -1;
-      }
-    }
-</style>
+<meta charset="UTF-8">
+<title>js十五</title>
 </head>
-
 <body>
 
-<div class="main">
-	<div class="box box1"></div>
-	<div class="box box2"></div>
-	<div class="box box3"></div>
-    <div class="box box4"></div>
-</div>
+<ul id="showlist">
+    <li>北京空气质量：<b>90</b></li>
+    <li>上海空气质量：<b>70</b></li>
+    <li>天津空气质量：<b>80</b></li>
+    <li>广州空气质量：<b>50</b></li>
+    <li>深圳空气质量：<b>40</b></li>
+    <li>福州空气质量：<b>32</b></li>
+    <li>成都空气质量：<b>90</b></li>
+</ul>
 
+
+<ul id="reback">
+   
+</ul>
+
+<button id="but">排序</button>
+
+<script type="text/javascript">
+
+//获取数据
+    function getData() {
+
+        var data = [];
+        var list = document.getElementById('showlist').childNodes;
+        for(var i=0 ;list.length>i;i++){
+            if(list[i].innerText){
+                data[i] = list[i].innerText.split('空气质量：')
+            }
+        }
+        return data;
+    }
+
+ //排序
+    function sortAqiData(data) {
+        function sortNumber(a,b){
+            return a[1]-b[1];
+        }
+        var a = data.sort(sortNumber);
+        return a;
+    }
+
+//输出结果
+
+    function render(data) {
+        var rebackList = document.getElementById('reback');
+        var dataList = data;
+        console.log(dataList);
+        for(var i=0; (data.length/2) > i;i++){
+            rebackList.innerHTML += "<li>第一名："+data[i][0]+"空气质量：<b>"+data[i][1]+"</b></li>"
+        }
+    }
+
+    function btnHandle() {
+        var aqiData = getData();
+        aqiData = sortAqiData(aqiData);
+        render(aqiData);
+    }
+
+
+    function init() {
+        var btn = document.getElementById('but');
+        btn.onclick = function(){
+            btnHandle();
+        }
+    }
+
+    init();
+
+</script>
 </body>
 </html>
